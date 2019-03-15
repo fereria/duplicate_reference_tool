@@ -8,6 +8,7 @@ from maya.app.general.mayaMixin import MayaQWidgetBaseMixin
 from PySide2 import QtCore, QtGui, QtWidgets
 
 import ui.main_ui as main_ui
+reload(main_ui)
 
 DEFAULT_ATTR = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz', 'v']
 
@@ -43,16 +44,19 @@ class MainUI(MayaQWidgetBaseMixin, QtWidgets.QDialog):
     def submit(self):
 
         copy_attr = self.get_copy_attr()
-        dubplicate_reference(copy_attr, self.ui.is_anim_key.isChecked())
+        dubplicate_reference(copy_attr, self.ui.is_selection.isChecked(), self.ui.is_anim_key.isChecked())
 
 
 def dubplicate_reference(copy_attrs=DEFAULT_ATTR,
+                         select_node=False,
                          copy_anim=False):
     """
     選択しているリファレンスノードを複製する    
     """
 
     sel_node = pm.ls(sl=True)
+
+    print sel_node
 
     load_reference = []
     for i in sel_node:
@@ -69,6 +73,9 @@ def dubplicate_reference(copy_attrs=DEFAULT_ATTR,
 
         for n in ref.nodes():
             if n.type() == "transform":
+                if select_node:
+                    if n not in sel_node:
+                        continue
                 to_pynode = pm.PyNode(n.name().replace(ref.namespace + ":", to_ns + ":"))
                 for attr in n.listAttr():
                     # コピーするアトリビュートかチェックする

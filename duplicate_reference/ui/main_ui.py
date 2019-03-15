@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'S:\work\proj\script_work\maya_scripts\duplicate_reference\ui\main_ui.ui'
+# Form implementation generated from reading ui file 'S:\work\proj\script_work\maya\duplicate_reference_tool\ui\main_ui.ui'
 #
-# Created: Fri Mar 15 21:30:27 2019
+# Created: Fri Mar 15 22:46:40 2019
 #      by: pyside2-uic  running on PySide2 2.0.0~alpha0
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(456, 139)
+        Form.resize(456, 187)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Form)
@@ -41,19 +41,22 @@ class Ui_Form(object):
         self.is_other.setObjectName("is_other")
         self.gridLayout.addWidget(self.is_other, 1, 1, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.is_anim_key = QtWidgets.QCheckBox(Form)
+        self.groupBox = QtWidgets.QGroupBox(Form)
+        self.groupBox.setObjectName("groupBox")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.groupBox)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.is_selection = QtWidgets.QCheckBox(self.groupBox)
+        self.is_selection.setObjectName("is_selection")
+        self.verticalLayout_2.addWidget(self.is_selection)
+        self.is_anim_key = QtWidgets.QCheckBox(self.groupBox)
         self.is_anim_key.setObjectName("is_anim_key")
-        self.horizontalLayout.addWidget(self.is_anim_key)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout_2.addWidget(self.is_anim_key)
+        self.verticalLayout.addWidget(self.groupBox)
         self.submit = QtWidgets.QPushButton(Form)
         self.submit.setObjectName("submit")
         self.verticalLayout.addWidget(self.submit)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem1)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -66,6 +69,8 @@ class Ui_Form(object):
         self.is_scale.setText(QtWidgets.QApplication.translate("Form", "Scale", None, -1))
         self.is_visible.setText(QtWidgets.QApplication.translate("Form", "Visible", None, -1))
         self.is_other.setText(QtWidgets.QApplication.translate("Form", "OtherAttribute", None, -1))
+        self.groupBox.setTitle(QtWidgets.QApplication.translate("Form", "Option", None, -1))
+        self.is_selection.setText(QtWidgets.QApplication.translate("Form", "選択ノードのアトリビュートのみコピーする", None, -1))
         self.is_anim_key.setText(QtWidgets.QApplication.translate("Form", "アニメーションキーがあれば、アニメーションをコピー", None, -1))
         self.submit.setText(QtWidgets.QApplication.translate("Form", "リファレンスを複製！", None, -1))
 
