@@ -56,8 +56,6 @@ def dubplicate_reference(copy_attrs=DEFAULT_ATTR,
 
     sel_node = pm.ls(sl=True)
 
-    print sel_node
-
     load_reference = []
     for i in sel_node:
         ref_node = i.referenceFile()
@@ -72,28 +70,28 @@ def dubplicate_reference(copy_attrs=DEFAULT_ATTR,
         to_ns  = to_ref.namespace
 
         for n in ref.nodes():
-            if n.type() == "transform":
-                if select_node:
-                    if n not in sel_node:
+            # if n.type() == "transform":
+            if select_node:
+                if n not in sel_node:
+                    continue
+            to_pynode = pm.PyNode(n.name().replace(ref.namespace + ":", to_ns + ":"))
+            for attr in n.listAttr():
+                # コピーするアトリビュートかチェックする
+                # Keyを指定できて、かつLockがかかっていないアトリビュートをコピーする
+                if attr.isKeyable() and attr.isLocked() is False:
+                    attr_name = attr.plugAttr()
+                    # copy_attrsで指定したアトリビュートのみコピーする
+                    if attr_name not in copy_attrs and '<other_attr>' not in copy_attrs:
                         continue
-                to_pynode = pm.PyNode(n.name().replace(ref.namespace + ":", to_ns + ":"))
-                for attr in n.listAttr():
-                    # コピーするアトリビュートかチェックする
-                    # Keyを指定できて、かつLockがかかっていないアトリビュートをコピーする
-                    if attr.isKeyable() and attr.isLocked() is False:
-                        attr_name = attr.plugAttr()
-                        # copy_attrsで指定したアトリビュートのみコピーする
-                        if attr_name not in copy_attrs and '<other_attr>' not in copy_attrs:
-                            continue
-                        # constraintがあったらなにもしない
-                        if len(attr.connections(scn=True, type="constraint")) != 0:
-                            continue
-                        to_pynode.attr(attr_name).set(attr.get())
-                        # AnimationNodeが刺さってたらKeyをコピーする
-                        if copy_anim:
-                            if len(attr.connections(scn=True, type="animCurve")) != 0:
-                                pm.copyKey(n, attribute=attr.plugAttr())
-                                pm.pasteKey(to_pynode, attribute=attr_name)
+                    # constraintがあったらなにもしない
+                    if len(attr.connections(scn=True, type="constraint")) != 0:
+                        continue
+                    to_pynode.attr(attr_name).set(attr.get())
+                    # AnimationNodeが刺さってたらKeyをコピーする
+                    if copy_anim:
+                        if len(attr.connections(scn=True, type="animCurve")) != 0:
+                            pm.copyKey(n, attribute=attr.plugAttr())
+                            pm.pasteKey(to_pynode, attribute=attr_name)
 
 
 if __name__ == "__main__":
